@@ -1,803 +1,1670 @@
 <!DOCTYPE html>
 <html lang="en">
-<head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
 
-  <title>My Workout</title>
+<head>
+
+  <meta charset="UTF-8">
+
+  <meta
+    name="viewport"
+    content="width=device-width, initial-scale=1.0"
+  >
+
+  <title>My Hybrid Workout</title>
+
 
   <style>
+
     * {
       box-sizing: border-box;
     }
 
+
     body {
+
       margin: 0;
-      font-family: Arial, sans-serif;
-      background: #111318;
+
+      font-family:
+        Arial,
+        Helvetica,
+        sans-serif;
+
+      background: #101216;
+
       color: white;
+
     }
+
 
     .container {
-      width: min(1000px, 94%);
+
+      width: min(1050px, 95%);
+
       margin: auto;
-      padding: 30px 0;
+
+      padding: 30px 0 50px;
+
     }
+
 
     h1 {
+
+      font-size: 38px;
+
       margin-bottom: 5px;
-      font-size: 36px;
+
     }
+
 
     .subtitle {
+
       color: #9ca3af;
+
       margin-bottom: 25px;
+
+      font-size: 15px;
+
     }
 
-    /* DAYS */
+
+
+    /* =====================================
+       DAY BUTTONS
+       ===================================== */
+
 
     .days {
+
       display: flex;
+
       flex-wrap: wrap;
+
       gap: 10px;
+
       margin-bottom: 25px;
+
     }
+
 
     .day-button {
-      border: 1px solid #333842;
-      background: #1b1f27;
+
+      background: #1a1e25;
+
       color: white;
-      padding: 12px 18px;
+
+      border: 1px solid #303641;
+
       border-radius: 10px;
-      cursor: pointer;
+
+      padding: 12px 18px;
+
       font-weight: bold;
+
       font-size: 15px;
+
+      cursor: pointer;
+
+      transition: 0.2s;
+
     }
+
 
     .day-button:hover {
-      background: #252b35;
+
+      background: #252b34;
+
     }
+
 
     .day-button.active {
-      background: #58d6b9;
-      color: #08251f;
-      border-color: #58d6b9;
+
+      background: #5bd6bb;
+
+      border-color: #5bd6bb;
+
+      color: #06231d;
+
     }
 
-    /* WORKOUT CARD */
+
+
+    /* =====================================
+       WORKOUT CARD
+       ===================================== */
+
 
     .workout-card {
-      background: #191d24;
-      border: 1px solid #2c323d;
+
+      background: #191d23;
+
+      border:
+
+        1px solid #2d333e;
+
       border-radius: 16px;
+
       overflow: hidden;
+
     }
+
 
     .workout-header {
-      padding: 20px;
-      border-bottom: 1px solid #2c323d;
+
+      padding: 22px;
+
+      border-bottom:
+
+        1px solid #2d333e;
+
     }
+
 
     .workout-header h2 {
-      margin: 0 0 7px 0;
+
+      margin:
+
+        0 0 7px 0;
+
     }
+
 
     .workout-note {
+
       color: #9ca3af;
+
       font-size: 14px;
+
+      line-height: 1.5;
+
     }
 
-    /* TABLE */
+
+
+    /* =====================================
+       TABLE
+       ===================================== */
+
 
     .table-container {
+
       overflow-x: auto;
+
     }
+
 
     table {
+
       width: 100%;
+
       border-collapse: collapse;
+
       min-width: 650px;
+
     }
+
 
     th {
-      background: #14171d;
-      color: #aeb7c3;
-      font-size: 13px;
+
+      background: #14171c;
+
+      color: #b7c0ca;
+
       text-transform: uppercase;
+
+      font-size: 12px;
+
       padding: 14px;
+
       text-align: left;
+
     }
+
 
     td {
+
       padding: 15px 14px;
-      border-top: 1px solid #2c323d;
+
+      border-top:
+
+        1px solid #2d333e;
+
     }
 
+
     .exercise {
+
       font-weight: bold;
+
     }
+
 
     .sets,
     .reps,
     .rest {
+
       white-space: nowrap;
+
     }
 
-    /* MOBILE */
 
-    @media (max-width: 600px) {
+    .cardio-row {
+
+      background: #14241f;
+
+    }
+
+
+    .cardio-row .exercise {
+
+      color: #5bd6bb;
+
+    }
+
+
+    .rest-row {
+
+      background: #222026;
+
+    }
+
+
+
+    /* =====================================
+       FOOTER
+       ===================================== */
+
+
+    .rules {
+
+      margin-top: 20px;
+
+      background: #191d23;
+
+      border:
+
+        1px solid #2d333e;
+
+      border-radius: 12px;
+
+      padding: 18px;
+
+      color: #adb5bd;
+
+      font-size: 14px;
+
+      line-height: 1.7;
+
+    }
+
+
+    .rules strong {
+
+      color: white;
+
+    }
+
+
+
+    /* =====================================
+       MOBILE
+       ===================================== */
+
+
+    @media(max-width: 650px) {
+
       h1 {
-        font-size: 28px;
+
+        font-size: 29px;
+
       }
+
 
       .container {
+
         width: 96%;
+
       }
 
+
       .day-button {
+
         flex: 1;
-        min-width: 80px;
+
+        min-width: 85px;
+
       }
+
+
+      td,
+      th {
+
+        padding: 12px 10px;
+
+      }
+
     }
+
+
   </style>
+
 </head>
+
+
 
 <body>
 
+
 <div class="container">
 
-  <h1>My Workout</h1>
+
+  <h1>
+    My Hybrid Workout
+  </h1>
+
 
   <div class="subtitle">
-    Low Volume • High Intensity • HYROX Hybrid
+
+    Low Volume • High Intensity • Running • Padel • HYROX
+
   </div>
 
 
-  <!-- DAY BUTTONS -->
+
+  <!-- =====================================
+       DAYS
+       ===================================== -->
+
 
   <div class="days">
 
-    <button class="day-button active"
-            onclick="showWorkout('Monday', this)">
+
+    <button
+      class="day-button active"
+      onclick="showWorkout('Monday', this)"
+    >
+
       Monday
+
     </button>
 
-    <button class="day-button"
-            onclick="showWorkout('Tuesday', this)">
+
+    <button
+      class="day-button"
+      onclick="showWorkout('Tuesday', this)"
+    >
+
       Tuesday
+
     </button>
 
-    <button class="day-button"
-            onclick="showWorkout('Wednesday', this)">
+
+    <button
+      class="day-button"
+      onclick="showWorkout('Wednesday', this)"
+    >
+
       Wednesday
+
     </button>
 
-    <button class="day-button"
-            onclick="showWorkout('Thursday', this)">
+
+    <button
+      class="day-button"
+      onclick="showWorkout('Thursday', this)"
+    >
+
       Thursday
+
     </button>
 
-    <button class="day-button"
-            onclick="showWorkout('Friday', this)">
+
+    <button
+      class="day-button"
+      onclick="showWorkout('Friday', this)"
+    >
+
       Friday
+
     </button>
 
-    <button class="day-button"
-            onclick="showWorkout('Saturday', this)">
+
+    <button
+      class="day-button"
+      onclick="showWorkout('Saturday', this)"
+    >
+
       Saturday
+
     </button>
 
-    <button class="day-button"
-            onclick="showWorkout('Sunday', this)">
+
+    <button
+      class="day-button"
+      onclick="showWorkout('Sunday', this)"
+    >
+
       Sunday
+
     </button>
+
 
   </div>
 
 
-  <!-- WORKOUT -->
+
+  <!-- =====================================
+       WORKOUT
+       ===================================== -->
+
 
   <div class="workout-card">
 
+
     <div class="workout-header">
 
+
       <h2 id="workoutTitle">
-        Monday — Upper
+
+        Monday — Upper + Abs
+
       </h2>
+
 
       <div
         class="workout-note"
-        id="workoutNote">
+        id="workoutNote"
+      >
+
       </div>
 
+
     </div>
+
 
 
     <div class="table-container">
 
+
       <table>
 
+
         <thead>
+
+
         <tr>
 
-          <th>Exercise</th>
 
-          <th>Hard Sets</th>
+          <th>
+            Exercise
+          </th>
 
-          <th>Reps</th>
 
-          <th>Rest</th>
+          <th>
+            Hard Sets
+          </th>
 
-          <th>RIR</th>
+
+          <th>
+            Reps
+          </th>
+
+
+          <th>
+            Rest
+          </th>
+
 
         </tr>
+
+
         </thead>
+
 
 
         <tbody id="workoutTable">
 
+
         </tbody>
+
 
       </table>
 
+
     </div>
 
+
   </div>
+
+
+
+  <!-- =====================================
+       RULES
+       ===================================== -->
+
+
+  <div class="rules">
+
+    <strong>
+      Progression:
+    </strong>
+
+    stay inside the prescribed rep range.
+
+    When all hard sets reach the top
+    of the range with clean technique,
+    increase the weight.
+
+
+    <br><br>
+
+
+    <strong>
+      Hard sets:
+    </strong>
+
+    warm-up and ramp-up sets
+    are NOT counted.
+
+
+    <br><br>
+
+
+    <strong>
+      Cardio:
+    </strong>
+
+    runs are easy / Zone 2 unless
+    specifically stated otherwise.
+
+  </div>
+
 
 </div>
 
 
+
 <script>
+
+
+
+/* =========================================
+   WORKOUT DATABASE
+   ========================================= */
+
 
 const workouts = {
 
-  /* =========================
+
+
+  /* =====================================
      MONDAY
-     ========================= */
+     ===================================== */
+
 
   Monday: {
 
-    title: "Monday — Upper + Abs",
 
-    note: "Balanced upper body hypertrophy.",
+    title:
+
+      "Monday — Upper + Abs",
+
+
+    note:
+
+      "Upper-body hypertrophy followed by an easy 2–4 km Zone 2 run.",
+
 
     exercises: [
 
+
       {
-        exercise: "Incline Barbell Press",
+
+        exercise:
+          "Incline Barbell Press",
+
         sets: 3,
-        reps: "5–8",
-        rest: "3 min",
-        rir: "1–2"
+
+        reps:
+          "6–8",
+
+        rest:
+          "3–5 min"
+
       },
 
+
       {
-        exercise: "Chest Supported T-Bar Row",
+
+        exercise:
+          "Chest-Supported T-Bar Row",
+
         sets: 2,
-        reps: "6–10",
-        rest: "2–3 min",
-        rir: "1"
+
+        reps:
+          "6–8",
+
+        rest:
+          "2–3 min"
+
       },
 
+
       {
-        exercise: "Lat Pulldown",
+
+        exercise:
+          "Lat Pulldown",
+
         sets: 2,
-        reps: "8–12",
-        rest: "2 min",
-        rir: "1"
+
+        reps:
+          "6–8",
+
+        rest:
+          "2–3 min"
+
       },
 
+
       {
-        exercise: "Cable Lateral Raise",
+
+        exercise:
+          "Cable Lateral Raise",
+
         sets: 2,
-        reps: "10–15",
-        rest: "1–2 min",
-        rir: "0–1"
+
+        reps:
+          "8–12",
+
+        rest:
+          "1–2 min"
+
       },
 
+
       {
-        exercise: "Preacher Curl",
+
+        exercise:
+          "Preacher Curl",
+
         sets: 2,
-        reps: "6–10",
-        rest: "1–2 min",
-        rir: "0–1"
+
+        reps:
+          "6–8",
+
+        rest:
+          "1–2 min"
+
       },
 
+
       {
-        exercise: "Overhead Cable Triceps Extension",
+
+        exercise:
+          "Overhead Cable Triceps Extension",
+
         sets: 3,
-        reps: "8–12",
-        rest: "1–2 min",
-        rir: "0–1"
+
+        reps:
+          "6–10",
+
+        rest:
+          "1–2 min"
+
       },
 
-      {
-        exercise: "Zottman Curl",
-        sets: 2,
-        reps: "8–12",
-        rest: "1–2 min",
-        rir: "1"
-      },
 
       {
-        exercise: "Weighted Cable Crunch",
+
+        exercise:
+          "Zottman Curl",
+
         sets: 2,
-        reps: "8–15",
-        rest: "1 min",
-        rir: "0–1"
+
+        reps:
+          "8–12",
+
+        rest:
+          "1–2 min"
+
       },
 
+
       {
-        exercise: "Lying Leg Raise",
+
+        exercise:
+          "Weighted Cable Crunch",
+
         sets: 2,
-        reps: "10–15",
-        rest: "1 min",
-        rir: "1"
+
+        reps:
+          "8–15",
+
+        rest:
+          "1 min"
+
+      },
+
+
+      {
+
+        exercise:
+          "Lying Leg Raise",
+
+        sets: 2,
+
+        reps:
+          "10–15",
+
+        rest:
+          "1 min"
+
+      },
+
+
+      {
+
+        exercise:
+          "🏃 Zone 2 Run",
+
+        sets:
+          "—",
+
+        reps:
+          "2–4 km",
+
+        rest:
+          "Easy pace",
+
+        cardio:
+          true
+
       }
 
+
     ]
+
   },
 
 
-  /* =========================
+
+
+  /* =====================================
      TUESDAY
-     ========================= */
+     ===================================== */
+
 
   Tuesday: {
 
-    title: "Tuesday — Lower",
 
-    note: "Main lower-body resistance session.",
+    title:
+
+      "Tuesday — Lower",
+
+
+    note:
+
+      "Main lower-body resistance session. Finish with a short incline treadmill walk.",
+
 
     exercises: [
 
-      {
-        exercise: "Back Squat",
-        sets: 2,
-        reps: "4–6",
-        rest: "3–4 min",
-        rir: "2 → 1"
-      },
 
       {
-        exercise: "Romanian Deadlift",
+
+        exercise:
+          "Back Squat",
+
         sets: 2,
-        reps: "6–8",
-        rest: "3 min",
-        rir: "1–2"
+
+        reps:
+          "4–6",
+
+        rest:
+          "3–5 min"
+
       },
 
-      {
-        exercise: "Leg Press",
-        sets: 2,
-        reps: "8–12",
-        rest: "2–3 min",
-        rir: "1"
-      },
 
       {
-        exercise: "Leg Curl",
+
+        exercise:
+          "Romanian Deadlift",
+
         sets: 2,
-        reps: "8–12",
-        rest: "1–2 min",
-        rir: "0–1"
+
+        reps:
+          "6–8",
+
+        rest:
+          "2–3 min"
+
       },
 
-      {
-        exercise: "Standing Calf Raise",
-        sets: 2,
-        reps: "8–12",
-        rest: "1–2 min",
-        rir: "0–1"
-      },
 
       {
-        exercise: "Leg Extension",
+
+        exercise:
+          "Leg Press",
+
+        sets: 2,
+
+        reps:
+          "6–8",
+
+        rest:
+          "2–3 min"
+
+      },
+
+
+      {
+
+        exercise:
+          "Leg Curl",
+
+        sets: 2,
+
+        reps:
+          "6–8",
+
+        rest:
+          "1–2 min"
+
+      },
+
+
+      {
+
+        exercise:
+          "Leg Extension",
+
         sets: 1,
-        reps: "10–15",
-        rest: "1–2 min",
-        rir: "0–1"
+
+        reps:
+          "6–8",
+
+        rest:
+          "1–2 min"
+
       },
 
+
       {
-        exercise: "Seated Calf Raise",
-        sets: 2,
-        reps: "10–15",
-        rest: "1–2 min",
-        rir: "0–1"
+
+        exercise:
+          "Standing Calf Raise",
+
+        sets: 3,
+
+        reps:
+          "8–12",
+
+        rest:
+          "1–2 min"
+
+      },
+
+
+      {
+
+        exercise:
+          "🚶 Incline Treadmill",
+
+        sets:
+          "—",
+
+        reps:
+          "10–15 min",
+
+        rest:
+          "12% incline • 3.5–4 km/h",
+
+        cardio:
+          true
+
       }
 
+
     ]
+
   },
 
 
-  /* =========================
+
+
+  /* =====================================
      WEDNESDAY
-     ========================= */
+     ===================================== */
+
 
   Wednesday: {
 
-    title: "Wednesday — Cardio / Padel + Abs",
 
-    note: "Choose rest, Zone 2 treadmill OR padel.",
+    title:
+
+      "Wednesday — Long Run + Abs",
+
+
+    note:
+
+      "Main aerobic running day. Keep the run easy / Zone 2.",
+
 
     exercises: [
 
-      {
-        exercise: "Zone 2 Treadmill / Padel",
-        sets: "—",
-        reps: "30–40 min",
-        rest: "—",
-        rir: "Easy"
-      },
 
       {
-        exercise: "Reverse Crunch",
-        sets: 2,
-        reps: "10–15",
-        rest: "1 min",
-        rir: "0–1"
+
+        exercise:
+          "🏃 Zone 2 Run",
+
+        sets:
+          "—",
+
+        reps:
+          "7–10 km",
+
+        rest:
+          "Easy / conversational pace",
+
+        cardio:
+          true
+
       },
 
+
       {
-        exercise: "Ab Wheel Rollout",
+
+        exercise:
+          "Reverse Crunch",
+
         sets: 2,
-        reps: "6–12",
-        rest: "1–2 min",
-        rir: "1"
+
+        reps:
+          "10–15",
+
+        rest:
+          "1 min"
+
+      },
+
+
+      {
+
+        exercise:
+          "Ab-Wheel Rollout",
+
+        sets: 2,
+
+        reps:
+          "6–12",
+
+        rest:
+          "1–2 min"
+
       }
 
+
     ]
+
   },
 
 
-  /* =========================
+
+
+  /* =====================================
      THURSDAY
-     ========================= */
+     ===================================== */
+
 
   Thursday: {
 
-    title: "Thursday — Pull + Hinge",
 
-    note: "Back, biceps, forearms and hip hinge micro-dose.",
+    title:
+
+      "Thursday — Pull + Hip Hinge",
+
+
+    note:
+
+      "Back, biceps, forearms and a low-fatigue hip-hinge micro-dose. NO CARDIO.",
+
 
     exercises: [
 
-      {
-        exercise: "Chest Supported T-Bar Row",
-        sets: 2,
-        reps: "6–10",
-        rest: "2–3 min",
-        rir: "1"
-      },
 
       {
-        exercise: "Neutral Grip Lat Pulldown",
+
+        exercise:
+          "Chest-Supported T-Bar Row",
+
         sets: 2,
-        reps: "6–10",
-        rest: "2–3 min",
-        rir: "1"
+
+        reps:
+          "6–8",
+
+        rest:
+          "2–3 min"
+
       },
 
-      {
-        exercise: "45° Hip Extension",
-        sets: 2,
-        reps: "8–12",
-        rest: "1–2 min",
-        rir: "1–2"
-      },
 
       {
-        exercise: "Reverse Pec Deck",
+
+        exercise:
+          "Neutral / Close-Grip Lat Pulldown",
+
         sets: 2,
-        reps: "10–15",
-        rest: "1–2 min",
-        rir: "0–1"
+
+        reps:
+          "6–8",
+
+        rest:
+          "2–3 min"
+
       },
 
-      {
-        exercise: "Bayesian Cable Curl",
-        sets: 2,
-        reps: "8–12",
-        rest: "1–2 min",
-        rir: "0–1"
-      },
 
       {
-        exercise: "Cable Wrist Curl",
+
+        exercise:
+          "45° Hip Extension",
+
         sets: 2,
-        reps: "10–15",
-        rest: "1 min",
-        rir: "0–1"
+
+        reps:
+          "8–12",
+
+        rest:
+          "1–2 min"
+
       },
 
+
       {
-        exercise: "Wrist Extension",
+
+        exercise:
+          "Reverse Pec Deck",
+
         sets: 2,
-        reps: "12–20",
-        rest: "1 min",
-        rir: "0–1"
+
+        reps:
+          "8–12",
+
+        rest:
+          "1–2 min"
+
+      },
+
+
+      {
+
+        exercise:
+          "Bayesian Cable Curl",
+
+        sets: 2,
+
+        reps:
+          "6–8",
+
+        rest:
+          "1–2 min"
+
+      },
+
+
+      {
+
+        exercise:
+          "Cable Wrist Curl",
+
+        sets: 2,
+
+        reps:
+          "10–15",
+
+        rest:
+          "1 min"
+
+      },
+
+
+      {
+
+        exercise:
+          "Wrist Extension",
+
+        sets: 2,
+
+        reps:
+          "12–20",
+
+        rest:
+          "1 min"
+
+      },
+
+
+      {
+
+        exercise:
+          "❌ No Cardio",
+
+        sets:
+          "—",
+
+        reps:
+          "Recovery",
+
+        rest:
+          "—",
+
+        restDay:
+          true
+
       }
 
+
     ]
+
   },
 
 
-  /* =========================
+
+
+  /* =====================================
      FRIDAY
-     ========================= */
+     ===================================== */
+
 
   Friday: {
 
-    title: "Friday — Push + Quads + Abs",
 
-    note: "Chest, side delts, triceps and quad micro-dose.",
+    title:
+
+      "Friday — Push + Quads + Abs",
+
+
+    note:
+
+      "After Push choose either incline treadmill OR padel. If you play padel Friday, Saturday becomes full rest.",
+
 
     exercises: [
 
+
       {
-        exercise: "Chest Press Machine / Dumbbell Press",
+
+        exercise:
+          "Chest Press Machine / DB Press",
+
         sets: 3,
-        reps: "6–10",
-        rest: "3 min",
-        rir: "1"
+
+        reps:
+          "6–8",
+
+        rest:
+          "2–3 min"
+
       },
 
+
       {
-        exercise: "Leg Extension",
+
+        exercise:
+          "Leg Extension",
+
         sets: 2,
-        reps: "10–15",
-        rest: "1–2 min",
-        rir: "2 → 1"
+
+        reps:
+          "6–8",
+
+        rest:
+          "1–2 min"
+
       },
 
+
       {
-        exercise: "Pec Deck",
+
+        exercise:
+          "Pec Deck",
+
         sets: 2,
-        reps: "8–12",
-        rest: "1–2 min",
-        rir: "0–1"
+
+        reps:
+          "6–8",
+
+        rest:
+          "1–2 min"
+
       },
 
+
       {
-        exercise: "Machine Lateral Raise",
+
+        exercise:
+          "Machine Lateral Raise",
+
         sets: 2,
-        reps: "8–12",
-        rest: "1–2 min",
-        rir: "0–1"
+
+        reps:
+          "8–12",
+
+        rest:
+          "1–2 min"
+
       },
 
+
       {
-        exercise: "Cable Lateral Raise",
+
+        exercise:
+          "Cable Lateral Raise",
+
         sets: 2,
-        reps: "12–20",
-        rest: "1 min",
-        rir: "0–1"
+
+        reps:
+          "8–12",
+
+        rest:
+          "1–2 min"
+
       },
 
+
       {
-        exercise: "Cable Triceps Pressdown",
+
+        exercise:
+          "Cable Triceps Pressdown",
+
         sets: 3,
-        reps: "8–12",
-        rest: "1–2 min",
-        rir: "0–1"
+
+        reps:
+          "6–8",
+
+        rest:
+          "1–2 min"
+
       },
 
-      {
-        exercise: "Machine / Cable Crunch",
-        sets: 2,
-        reps: "8–15",
-        rest: "1 min",
-        rir: "0–1"
-      },
 
       {
-        exercise: "Captain Chair Knee Raise",
+
+        exercise:
+          "Machine / Cable Crunch",
+
         sets: 2,
-        reps: "8–15",
-        rest: "1 min",
-        rir: "1"
+
+        reps:
+          "8–15",
+
+        rest:
+          "1 min"
+
+      },
+
+
+      {
+
+        exercise:
+          "Captain's Chair Knee Raise",
+
+        sets: 2,
+
+        reps:
+          "8–15",
+
+        rest:
+          "1 min"
+
+      },
+
+
+      {
+
+        exercise:
+          "OPTION A — 🚶 Incline Walk",
+
+        sets:
+          "—",
+
+        reps:
+          "10–15 min",
+
+        rest:
+          "12% incline • 3.5–4 km/h",
+
+        cardio:
+          true
+
+      },
+
+
+      {
+
+        exercise:
+          "OPTION B — 🎾 Padel",
+
+        sets:
+          "—",
+
+        reps:
+          "Padel session",
+
+        rest:
+          "Then Saturday = Rest",
+
+        cardio:
+          true
+
       }
 
+
     ]
+
   },
 
 
-  /* =========================
+
+
+  /* =====================================
      SATURDAY
-     ========================= */
+     ===================================== */
+
 
   Saturday: {
 
-    title: "Saturday — Rest",
 
-    note: "Rest before HYROX.",
+    title:
+
+      "Saturday — Padel OR Rest",
+
+
+    note:
+
+      "Depends on what you did Friday.",
+
 
     exercises: [
 
+
       {
-        exercise: "Rest / Walking / Mobility",
-        sets: "—",
-        reps: "As needed",
-        rest: "—",
-        rir: "Easy"
+
+        exercise:
+          "If Friday = Incline Walk",
+
+        sets:
+          "—",
+
+        reps:
+          "🎾 Padel",
+
+        rest:
+          "Optional",
+
+        cardio:
+          true
+
+      },
+
+
+      {
+
+        exercise:
+          "If Friday = Padel",
+
+        sets:
+          "—",
+
+        reps:
+          "Full Rest",
+
+        rest:
+          "Prepare for HYROX",
+
+        restDay:
+          true
+
       }
 
+
     ]
+
   },
 
 
-  /* =========================
+
+
+  /* =====================================
      SUNDAY
-     ========================= */
+     ===================================== */
+
 
   Sunday: {
 
-    title: "Sunday — HYROX",
 
-    note: "Main hybrid conditioning session.",
+    title:
+
+      "Sunday — HYROX Training",
+
+
+    note:
+
+      "HYROX class / training day. First sessions may vary depending on the coach and class structure.",
+
 
     exercises: [
 
-      {
-        exercise: "Running",
-        sets: 8,
-        reps: "1 km",
-        rest: "HYROX format",
-        rir: "—"
-      },
 
       {
-        exercise: "SkiErg",
-        sets: 1,
-        reps: "1000 m",
-        rest: "HYROX format",
-        rir: "—"
+
+        exercise:
+          "HYROX Training",
+
+        sets:
+          "—",
+
+        reps:
+          "Class Program",
+
+        rest:
+          "According to coach",
+
+        cardio:
+          true
+
       },
 
-      {
-        exercise: "Sled Push",
-        sets: 1,
-        reps: "50 m",
-        rest: "HYROX format",
-        rir: "—"
-      },
 
       {
-        exercise: "Sled Pull",
-        sets: 1,
-        reps: "50 m",
-        rest: "HYROX format",
-        rir: "—"
-      },
 
-      {
-        exercise: "Burpee Broad Jump",
-        sets: 1,
-        reps: "80 m",
-        rest: "HYROX format",
-        rir: "—"
-      },
+        exercise:
+          "Extra Cardio",
 
-      {
-        exercise: "Row",
-        sets: 1,
-        reps: "1000 m",
-        rest: "HYROX format",
-        rir: "—"
-      },
+        sets:
+          "—",
 
-      {
-        exercise: "Farmers Carry",
-        sets: 1,
-        reps: "200 m",
-        rest: "HYROX format",
-        rir: "—"
-      },
+        reps:
+          "NONE",
 
-      {
-        exercise: "Sandbag Lunges",
-        sets: 1,
-        reps: "100 m",
-        rest: "HYROX format",
-        rir: "—"
-      },
+        rest:
+          "HYROX is enough",
 
-      {
-        exercise: "Wall Balls",
-        sets: 1,
-        reps: "100 reps",
-        rest: "HYROX format",
-        rir: "—"
+        restDay:
+          true
+
       }
 
+
     ]
+
   }
+
 
 };
 
 
 
+/* =========================================
+   DISPLAY WORKOUT
+   ========================================= */
+
+
 function showWorkout(day, clickedButton) {
 
-  const workout = workouts[day];
 
-  document.getElementById("workoutTitle").textContent =
+  const workout =
+    workouts[day];
+
+
+  document
+    .getElementById("workoutTitle")
+    .textContent =
     workout.title;
 
-  document.getElementById("workoutNote").textContent =
+
+  document
+    .getElementById("workoutNote")
+    .textContent =
     workout.note;
 
 
+
   const table =
-    document.getElementById("workoutTable");
+
+    document
+    .getElementById("workoutTable");
+
 
   table.innerHTML = "";
 
 
-  workout.exercises.forEach(item => {
+
+  workout
+  .exercises
+  .forEach(item => {
+
 
     const row =
-      document.createElement("tr");
+
+      document
+      .createElement("tr");
+
+
+
+    if(item.cardio) {
+
+      row.classList.add(
+        "cardio-row"
+      );
+
+    }
+
+
+    if(item.restDay) {
+
+      row.classList.add(
+        "rest-row"
+      );
+
+    }
+
 
 
     row.innerHTML = `
 
+
       <td class="exercise">
+
         ${item.exercise}
+
       </td>
+
 
       <td class="sets">
+
         ${item.sets}
+
       </td>
+
 
       <td class="reps">
+
         ${item.reps}
+
       </td>
+
 
       <td class="rest">
+
         ${item.rest}
+
       </td>
 
-      <td>
-        ${item.rir}
-      </td>
 
     `;
 
 
+
     table.appendChild(row);
+
 
   });
 
 
+
   document
-    .querySelectorAll(".day-button")
-    .forEach(button =>
-      button.classList.remove("active")
-    );
+  .querySelectorAll(
+    ".day-button"
+  )
+  .forEach(button => {
+
+    button
+    .classList
+    .remove("active");
+
+  });
 
 
-  clickedButton.classList.add("active");
+
+  clickedButton
+  .classList
+  .add("active");
+
 
 }
 
 
-/* OPEN MONDAY AUTOMATICALLY */
+
+/* =========================================
+   DEFAULT DAY
+   ========================================= */
+
 
 window.onload = function() {
 
+
   const mondayButton =
-    document.querySelector(".day-button");
+
+    document
+    .querySelector(
+      ".day-button"
+    );
+
 
   showWorkout(
     "Monday",
     mondayButton
   );
 
+
 };
+
 
 </script>
 
+
 </body>
+
 </html>
